@@ -5,6 +5,7 @@ namespace MohawkGame2D;
 
 public class Game
 {
+    //varables
     int width = 800;
     int height = 600;
 
@@ -51,7 +52,7 @@ public class Game
         bool isMouseDown = Input.IsMouseButtonDown(0);
 
         bool allPopped = true;
-
+    // balloon 
         for (int i = 0; i < balloonCount; i++)
         {
             if (!balloonAlive[i])
@@ -92,7 +93,7 @@ public class Game
                 }
             }
         }
-
+    // win / lose screen
         if (health <= 0)
         {
             int startRed = 125;
