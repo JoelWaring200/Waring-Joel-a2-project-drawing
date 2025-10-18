@@ -5,6 +5,7 @@ namespace MohawkGame2D;
 
 public class Game
 {
+    //varables
     int width = 800;
     int height = 600;
     //balloon varables
@@ -52,7 +53,7 @@ public class Game
         bool isMousePressed = Input.IsMouseButtonPressed(0);
 
         bool allPopped = true;
-
+    // balloon 
         for (int i = 0; i < balloonCount; i++)
         {
             if (!balloonAlive[i])
