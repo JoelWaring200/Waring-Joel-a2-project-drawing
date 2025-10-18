@@ -1,33 +1,76 @@
-﻿// Include the namespaces (code libraries) you need below.
-using System;
+﻿using System;
 using System.Numerics;
 
-// The namespace your code is in.
-namespace MohawkGame2D
+namespace MohawkGame2D;
+
+public class Game
 {
-    /// <summary>
-    ///     Your game code goes inside this class!
-    /// </summary>
-    public class Game
+    const int balloonCount = 25;
+
+    float[] balloonX = new float[balloonCount];
+    float[] balloonY = new float[balloonCount];
+    bool[] balloonAlive = new bool[balloonCount];
+    Color[] balloonColors = new Color[balloonCount];
+
+    System.Random random = new System.Random();
+    public void Setup()
     {
-        // Place your variables here:
+        Window.SetTitle("Pop the Balloons");
+        Window.SetSize(800, 600);
+        Draw.LineColor = Color.Clear;
 
-
-        /// <summary>
-        ///     Setup runs once before the game loop begins.
-        /// </summary>
-        public void Setup()
+        for (int i = 0; i < balloonCount; i++)
         {
+            balloonX[i] = random.Next(30, 770);
+            balloonY[i] = random.Next(200, 600);
+            balloonAlive[i] = true;
 
-        }
-
-        /// <summary>
-        ///     Update runs every frame.
-        /// </summary>
-        public void Update()
-        {
-
+            balloonColors[i] = new Color(
+                random.Next(150, 255),
+                random.Next(100, 255),
+                random.Next(100, 255)
+            );
         }
     }
+    public void Update()
+    {
+        Window.ClearBackground(Color.OffWhite);
 
+        Vector2 mousePos = Input.GetMousePosition();
+        bool isMouseDown = Input.IsMouseButtonDown(0);
+
+        for (int i = 0; i < balloonCount; i++)
+        {
+            if (!balloonAlive[i])
+                continue;
+
+            if (isMouseDown)
+            {
+                float dx = mousePos.X - balloonX[i];
+                float dy = mousePos.Y - balloonY[i];
+                float distance = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                if (distance <= 20f)
+                {
+                    balloonAlive[i] = false;
+                    continue;
+                }
+            }
+
+            Draw.LineColor = Color.Gray;
+            Draw.Line(balloonX[i], balloonY[i] + 20, balloonX[i], balloonY[i] + 60);
+
+            Draw.FillColor = balloonColors[i];
+            Draw.Circle(balloonX[i], balloonY[i], 20);
+            
+            balloonY[i] -= 0.5f;
+
+            
+            if (balloonY[i] < -20)
+            {
+                balloonY[i] = 420;
+                balloonX[i] = random.Next(30, 370);
+            }
+        }
+    }
 }
